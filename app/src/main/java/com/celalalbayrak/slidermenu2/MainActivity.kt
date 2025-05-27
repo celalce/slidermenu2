@@ -2,11 +2,9 @@ package com.celalalbayrak.slidermenu2
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import com.celalalbayrak.slidermenu2.R
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +12,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var contentText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +19,6 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
-        contentText = findViewById(R.id.main_content)
-
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -35,14 +30,30 @@ class MainActivity : AppCompatActivity() {
             handleMenuClick(menuItem)
             true
         }
+
+        // İlk açılışta anasayfa fragmenti göster
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, HomeFragment())
+                .commit()
+            navView.setCheckedItem(R.id.nav_home)
+        }
     }
 
     private fun handleMenuClick(menuItem: MenuItem) {
-        when (menuItem.itemId) {
-            R.id.nav_home -> contentText.text = "Anasayfa seçildi"
-            R.id.nav_settings -> contentText.text = "Ayarlar seçildi"
-            R.id.nav_about -> contentText.text = "Hakkında seçildi"
+        val fragment = when (menuItem.itemId) {
+            R.id.nav_home -> HomeFragment()
+            R.id.nav_settings -> SettingsFragment()
+            R.id.nav_about -> AboutFragment()
+            else -> null
         }
+
+        fragment?.let {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, it)
+                .commit()
+        }
+
         drawerLayout.closeDrawers()
     }
 }

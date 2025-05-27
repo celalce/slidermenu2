@@ -2,14 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/nav_home"
-            android:title="Anasayfa"
+            android:title="Kombi"
             android:icon="@android:drawable/ic_menu_view"/>
+     <item
+            android:id="@+id/nav_about"
+            android:title="Cihazlar"
+            android:icon="@android:drawable/ic_menu_info_details"/>
+
     <item
             android:id="@+id/nav_settings"
             android:title="Ayarlar"
             android:icon="@android:drawable/ic_menu_preferences"/>
-    <item
-            android:id="@+id/nav_about"
-            android:title="Hakkında"
-            android:icon="@android:drawable/ic_menu_info_details"/>
+
 </menu>
